@@ -9,11 +9,11 @@
 </ion-header>
 
 <ion-content padding class="page-questionaire">
-  <h2>Cuestionario</h2>
+  <h3>Marque la respuesta adecuada a cada pregunta a continuación</h3>
   <p>
-    Realizar evaluación
-  </p>
-  <p>
-    Consultar requisitos
+    <ion-item *ngFor="let r of ruleItems">
+      <ion-label>{{ r.label }}</ion-label>
+      <ion-checkbox color="primary" ng-model="r.model"></ion-checkbox>
+    </ion-item>
   </p>
 </ion-content>

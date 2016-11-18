@@ -1,7 +1,7 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "name": "conductapp",
+  "author": "Frederic Peña <fypenas@libertadores.edu.co",
+  "homepage": "http://razorblade446.net/",
   "private": true,
   "scripts": {
     "ionic:build": "ionic-app-scripts build",
@@ -21,6 +21,8 @@
     "ionic-angular": "2.0.0-rc.2",
     "ionic-native": "2.2.3",
     "ionicons": "3.0.0",
+    "ng-couchbase-lite": "git+https://git@github.com/couchbaselabs/ng-couchbase-lite.git",
+    "pouchdb": "^6.0.7",
     "rxjs": "5.0.0-beta.12",
     "zone.js": "0.6.21"
   },
@@ -44,5 +46,5 @@
       "locator": "ios"
     }
   ],
-  "description": "conductApp: An Ionic project"
+  "description": "ConductAPP SE: Sistema Experto en Licencias de Conducción Colombianas"
 }

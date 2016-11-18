@@ -5,11 +5,13 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 import { HomePage } from '../pages/home/home';
 import { QuestionairePage } from '../pages/questionaire/questionaire';
 
+import { KnowledgeBaseService } from './services/knowledge-base.service';
 
 @Component({
-  templateUrl: 'app.component.html' 
+  templateUrl: 'app.component.html',
+  providers: [KnowledgeBaseService]
 })
-export class MyApp{
+export class MyApp {
   rootPage = HomePage;
 
   pages: Array<{title: string, component: any}>;
@@ -17,6 +19,7 @@ export class MyApp{
   @ViewChild(Nav) nav: Nav;
 
   constructor(private platform: Platform) {
+
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
