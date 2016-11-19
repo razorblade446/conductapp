@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
+    "lodash": "registry:dt/lodash#4.14.0+20161110215204",
     "require": "registry:dt/require#2.1.20+20160919185614"
   }
 }

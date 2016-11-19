@@ -21,13 +21,14 @@
     "ionic-angular": "2.0.0-rc.2",
     "ionic-native": "2.2.3",
     "ionicons": "3.0.0",
+    "lodash": "^4.17.2",
     "ng-couchbase-lite": "git+https://git@github.com/couchbaselabs/ng-couchbase-lite.git",
     "pouchdb": "^6.0.7",
     "rxjs": "5.0.0-beta.12",
     "zone.js": "0.6.21"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.43",
+    "@ionic/app-scripts": "0.0.45",
     "typescript": "2.0.6"
   },
   "cordovaPlugins": [

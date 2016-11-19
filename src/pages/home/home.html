@@ -10,10 +10,17 @@
 
 <ion-content padding>
   <h2>Bienvenido a ConductApp</h2>
+  <div *ngIf="progressComplete()">
   <p>
     Seleccione a continuación que desea hacer
   </p>
   <p>
     <button ion-button round block (click)="openQuestionaire()">Realizar Cuestionario</button>
   </p>
+  </div>
+  <div *ngIf="!progressComplete()">
+  <h2>Inicializando Aplicación</h2>
+  <p>Por favor espere un momento mientras se inicializan las reglas de inferencia en PouchDB</p>
+  <p>{{ progress }} / {{ totalRules }}</p>
+  </div>
 </ion-content>

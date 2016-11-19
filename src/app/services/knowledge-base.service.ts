@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { Rule } from '../models/rule.model';
+import * as _ from 'lodash';
 
 import * as PouchDB from 'pouchdb';
 
@@ -8,6 +10,38 @@ import * as PouchDB from 'pouchdb';
 export class KnowledgeBaseService {
   private _db;
   private _rules;
+  private _combinationsArray = [];
+
+  private _progress = new BehaviorSubject<number>(0);
+
+  progress$ = this._progress.asObservable();
+
+  private rulesAndMeanings = {
+    'CanAccessLicense': 'Puede acceder a la licencia'
+  };
+
+  private restrictionsAndMeanings = {
+    'WarnVisualDevice': 'Debe usar anteojos',
+    'WarnAudioDevice': 'Debe usar dispositivo auditivo',
+    'WarnPhisicalDevice': 'Debe usar algun dispositivo o el vehiculo debe estar acondicionado para tal'
+  };
+
+  private variableIndexes = [
+    'age16',
+    'age18',
+    'age60',
+    'age80',
+    'parentPermission',
+    'canRW',
+    'theoricTest',
+    'practiceTest',
+    'visuallyDiminished',
+    'visuallyImpaired',
+    'auditionDiminished',
+    'auditionImpaired',
+    'phisicallyDiminished',
+    'phisicallyImpaired',
+  ];
 
   initDB = () => {
     this._db = new PouchDB('conductapp', { adapter: 'websql' });
@@ -86,6 +120,9 @@ export class KnowledgeBaseService {
    13. phisicallyDiminished = Disminuido Físicamente
    14. phisicallyImpaired = Discapacitado Físicamente
 
+   las reglas _ruleCanAccess* determinan si se puede optar por la licencia
+   las reglas _ruleWarn* determinan que restricciones se pueden aplicar a la licencie
+
    */
 
   private _ruleCanAccessLicense = (rule: Rule) => {
@@ -105,5 +142,51 @@ export class KnowledgeBaseService {
   private _ruleWarnPhisicalDevice = (rule: Rule) => {
     return rule.phisicallyDiminished;
   };
+
+  calculateRulesAndWarns = () => {
+    let documentList = [];
+    let initialArray = this.fillArray(true, this.variableIndexes.length);
+
+    this.commuterFunction(initialArray, 0);
+
+    let __progress = 0;
+    let _totalRules = Math.pow(2, initialArray.length);
+
+    let rulesArray = [];
+
+    _.each(this._combinationsArray, (vars) => {
+      let rule: Rule = new Rule;
+      for(let i = 0; i < this.variableIndexes.length; i++) {
+        rule[this.variableIndexes[i]] = vars[i];
+      }
+      rulesArray.push(rule);
+      __progress++;
+      this._progress.next(__progress);
+    });
+    
+  };
+
+  fillArray = (item, length) => {
+    let myArray = [];
+    for (let i = 0; i < length; i++) {
+      myArray.push(item);
+    }
+    return myArray;
+  };
+
+  commuterFunction = (initialArray, curIndex) => {
+    // Prevee que los elementos del arreglo existen
+    initialArray[curIndex] = true;
+    this._combinationsArray.push(_.clone(initialArray));
+    if (curIndex < initialArray.length - 1) {
+      this.commuterFunction(initialArray, curIndex + 1);
+    }
+
+    initialArray[curIndex] = false;
+    this._combinationsArray.push(_.clone(initialArray));
+    if (curIndex < initialArray.length - 1) {
+      this.commuterFunction(initialArray, curIndex + 1);
+    }
+  }
 
 }
